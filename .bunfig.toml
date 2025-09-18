@@ -1,0 +1,10 @@
+[install]
+# set default registry as a string
+registry = "https://registry.npmjs.org"
+
+[install.lockfile]
+print = "yarn"
+
+[install.scopes]
+# registry for @buf packages
+"@buf" = "https://buf.build/gen/npm/v1"
