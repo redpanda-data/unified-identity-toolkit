@@ -11,8 +11,8 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "build": "npm run build:linux",
-    "build:js": "bun build --target node --sourcemap --bundle --outdir dist src/cli.ts",
+    "build": "bun run build:linux",
+    "build:js": "bun build --target node --bundle --outdir dist src/cli.ts",
     "build:linux": "mkdir -p out/linux && bun build --compile --minify --sourcemap --target bun-linux-x64 src/cli.ts --outfile out/linux/unified-identity-toolkit",
     "build:macos": "mkdir -p out/macos && bun build --compile --minify --sourcemap --target bun-darwin-x64 src/cli.ts --outfile out/macos/unified-identity-toolkit",
     "build:windows": "mkdir -p out/windows && bun build --compile --minify --sourcemap --target bun-windows-x64 src/cli.ts --outfile out/windows/unified-identity-toolkit.exe",

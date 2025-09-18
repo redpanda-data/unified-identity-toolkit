@@ -173,21 +173,6 @@ export class RedpandaCloudClient {
     }
   }
 
-  async getRoleBindings(): Promise<RoleBinding[]> {
-    try {
-      return paginateToArray(
-        { filter: { roleName: 'Admin' } },
-        (request) => this.roleBindingClient.listRoleBindings(request),
-        (response) => response.roleBindings,
-        { requestName: 'Role bindings' }
-      );
-    } catch (error) {
-      console.error('Failed to fetch role bindings:');
-      console.error(formatConnectError(error));
-      throw error;
-    }
-  }
-
   async getRoleWithPrincipals(
     targetRole: string,
     cluster?: ClusterInfo
