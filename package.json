@@ -1,0 +1,76 @@
+{
+  "name": "redpanda-identity-migration",
+  "version": "0.1.0",
+  "description": "TypeScript tool for migrating roles and role bindings from Redpanda Cloud to Core clusters",
+  "main": "src/index.ts",
+  "bin": {
+    "unified-identity-toolkit": "./unified-identity-toolkit"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "build": "npm run build:linux",
+    "build:js": "bun build --target node --sourcemap --bundle --outdir dist src/cli.ts",
+    "build:linux": "mkdir -p out/linux && bun build --compile --minify --sourcemap --target bun-linux-x64 src/cli.ts --outfile out/linux/unified-identity-toolkit",
+    "build:macos": "mkdir -p out/macos && bun build --compile --minify --sourcemap --target bun-darwin-x64 src/cli.ts --outfile out/macos/unified-identity-toolkit",
+    "build:windows": "mkdir -p out/windows && bun build --compile --minify --sourcemap --target bun-windows-x64 src/cli.ts --outfile out/windows/unified-identity-toolkit.exe",
+    "build:all": "npm run build:linux && npm run build:macos && npm run build:windows",
+    "dev": "bun run src/cli.ts",
+    "test": "bun test",
+    "test:watch": "bun test --watch",
+    "format": "biome format --write src/",
+    "lint": "biome lint .",
+    "lint:fix": "biome lint --write .",
+    "check": "biome check .",
+    "check:fix": "biome check --write .",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf dist out"
+  },
+  "keywords": [
+    "redpanda",
+    "cloud",
+    "migration",
+    "roles",
+    "rbac",
+    "identity",
+    "grpc",
+    "connectrpc"
+  ],
+  "author": "Redpanda Data <support@redpanda.com>",
+  "contributors": [
+    "santiago@redpanda.com"
+  ],
+  "license": "BSL-1.1",
+  "dependencies": {
+    "@buf/redpandadata_cloud.bufbuild_es": "^2.8.0-20250915192323-e5017b85f946.1",
+    "@buf/redpandadata_dataplane.bufbuild_es": "2.8.0-20250917111545-e22d5cd958f8.1",
+    "@bufbuild/protobuf": "2.8.0",
+    "@connectrpc/connect": "^2.1.0",
+    "@connectrpc/connect-node": "^2.1.0",
+    "commander": "^12.0.0",
+    "@inquirer/prompts": "^7.8.6"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.2.4",
+    "@buf/googleapis_googleapis.bufbuild_es": "^2.8.0-20250411203938-61b203b9a916.1",
+    "@types/bun": "1.2.22",
+    "@types/node": "^20.11.25",
+    "bun-types": "^1.0.38",
+    "typescript": "^5.4.2"
+  },
+  "files": [
+    "redpanda-migration*",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/redpanda-data/unified-identity-toolkit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/redpanda-data/unified-identity-toolkit/issues"
+  },
+  "homepage": "https://github.com/redpanda-data/unified-identity-toolkit"
+}
