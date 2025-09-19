@@ -1,0 +1,91 @@
+# ACL Configuration for Redpanda Roles
+# Each role section defines the ACL permissions for that specific role
+
+[roles.admin]
+description = "Full administrative access to all cluster resources"
+
+[[roles.admin.acls]]
+resource_type = "TOPIC"
+resource_name = "*"
+resource_pattern_type = "LITERAL"
+operation = "ALL"
+permission_type = "ALLOW"
+host = "*"
+
+[[roles.admin.acls]]
+resource_type = "GROUP"
+resource_name = "*"
+resource_pattern_type = "LITERAL"
+operation = "ALL"
+permission_type = "ALLOW"
+host = "*"
+
+[[roles.admin.acls]]
+resource_type = "CLUSTER"
+resource_name = "kafka-cluster"
+resource_pattern_type = "LITERAL"
+operation = "ALL"
+permission_type = "ALLOW"
+host = "*"
+
+[[roles.admin.acls]]
+resource_type = "TRANSACTIONAL_ID"
+resource_name = "*"
+resource_pattern_type = "LITERAL"
+operation = "ALL"
+permission_type = "ALLOW"
+host = "*"
+
+[[roles.admin.acls]]
+resource_type = "REGISTRY"
+resource_name = "*"
+resource_pattern_type = "LITERAL"
+operation = "ALL"
+permission_type = "ALLOW"
+host = "*"
+
+[[roles.admin.acls]]
+resource_type = "SUBJECT"
+resource_name = "*"
+resource_pattern_type = "LITERAL"
+operation = "ALL"
+permission_type = "ALLOW"
+host = "*"
+
+[roles.writer]
+description = "Write access to topics and groups"
+
+[[roles.writer.acls]]
+resource_type = "TOPIC"
+resource_name = "*"
+resource_pattern_type = "LITERAL"
+operation = "WRITE"
+permission_type = "ALLOW"
+host = "*"
+
+[[roles.writer.acls]]
+resource_type = "GROUP"
+resource_name = "*"
+resource_pattern_type = "LITERAL"
+operation = "WRITE"
+permission_type = "ALLOW"
+host = "*"
+
+[roles.reader]
+description = "Read access to topics and groups"
+
+[[roles.reader.acls]]
+resource_type = "TOPIC"
+resource_name = "*"
+resource_pattern_type = "LITERAL"
+operation = "READ"
+permission_type = "ALLOW"
+host = "*"
+
+[[roles.reader.acls]]
+resource_type = "GROUP"
+resource_name = "*"
+resource_pattern_type = "LITERAL"
+operation = "READ"
+permission_type = "ALLOW"
+host = "*"
