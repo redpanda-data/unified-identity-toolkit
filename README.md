@@ -4,12 +4,12 @@ A command-line tool to synchronize roles and role bindings from Redpanda Cloud c
 
 ## Features
 
-- 🔐 **Role synchronization**: Sync Admin, Writer, and Reader roles from Redpanda Cloud to Redpanda Self-Managed
-- 👥 **Principal migration**: Transfer user and service account assignments
-- 🎯 **ACL management**: Create and reconcile access control lists (ACLs) automatically
-- 🔧 **Flexible configuration**: Configure environment variables and command-line flags
-- 🖥️ **Cross-platform**: Available for Linux, macOS, and Windows
-- ⚡ **Single binary**: No runtime dependencies required
+- **Role synchronization**: Sync Admin, Writer, and Reader roles from Redpanda Cloud to Redpanda Self-Managed
+- **Principal migration**: Transfer user and service account assignments
+- **ACL management**: Create and reconcile access control lists (ACLs) automatically
+- **Flexible configuration**: Configure environment variables and command-line flags
+- **Cross-platform**: Available for Linux, macOS, and Windows
+- **Single binary**: No runtime dependencies required
 
 ## Prerequisites
 
@@ -204,9 +204,9 @@ node dist/cli.js sync
 
 | Error | Cause | Solution |
 |-------|-------|---------|
-| `❌ Cloud API token is required` | Missing authentication | Set `REDPANDA_CLOUD_API_TOKEN` or use `--cloud-token` |
-| `❌ No ready clusters found` | No accessible clusters | Verify token permissions and cluster status |
-| `❌ Failed to create role: permission denied` | Insufficient permissions | Ensure Data Plane token has admin permissions on the target cluster |
+| `Cloud API token is required` | Missing authentication | Set `REDPANDA_CLOUD_API_TOKEN` or use `--cloud-token` |
+| `No ready clusters found` | No accessible clusters | Verify token permissions and cluster status |
+| `Failed to create role: permission denied` | Insufficient permissions | Ensure Data Plane token has admin permissions on the target cluster |
 
 
 ### Get Help
