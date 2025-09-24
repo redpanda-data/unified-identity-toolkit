@@ -28,7 +28,7 @@ To use this toolkit, you need a Redpanda Cloud API token. You can obtain one wit
 1. Go to the **Service Account** tab of the **Organization IAM** page in the [Redpanda Cloud UI](https://cloud.redpanda.com).
 2. Click **Create service account**.
 3. Enter a name and description, then click **Create**.
-4. Copy and save the **Client ID** and **Client Secret**. 
+4. Copy and save the **Client ID** and **Client Secret**.
 
 #### Generate an Access Token
 
