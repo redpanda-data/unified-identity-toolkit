@@ -1,38 +1,38 @@
-# Redpanda Identity Toolkit
+# Redpanda Unified Identity Toolkit
 
-A command-line tool for synchronizing roles and role bindings from Redpanda Cloud to Redpanda Core clusters. This tool enables seamless migration of identity and access control settings between cloud and self-hosted environments.
+A command-line tool to synchronize roles and role bindings from Redpanda Cloud clusters to Redpanda Self-Managed clusters. This tool enables seamless migration of identity and access control settings between cloud and self-managed environments.
 
 ## Features
 
-- 🔐 **Role Synchronization** - Sync Admin, Writer, and Reader roles from Cloud to Core
-- 👥 **Principal Migration** - Transfer user and service account assignments
-- 🎯 **ACL Management** - Create and reconcile Access Control Lists automatically
-- 🔧 **Flexible Configuration** - Environment variables and command-line flags
-- 🖥️ **Cross-Platform** - Available for Linux, macOS, and Windows
-- ⚡ **Single Binary** - No runtime dependencies required
+- 🔐 **Role synchronization**: Sync Admin, Writer, and Reader roles from Redpanda Cloud to Redpanda Self-Managed
+- 👥 **Principal migration**: Transfer user and service account assignments
+- 🎯 **ACL management**: Create and reconcile access control lists (ACLs) automatically
+- 🔧 **Flexible configuration**: Configure environment variables and command-line flags
+- 🖥️ **Cross-platform**: Available for Linux, macOS, and Windows
+- ⚡ **Single binary**: No runtime dependencies required
 
-## Quick Start
+## Prerequisites
 
-### Prerequisites
+- Redpanda Cloud API token with appropriate permissions (see Step 1)
+- Access to target Redpanda Self-Managed cluster
+- Network connectivity to both the Cloud API and the Self-Managed cluster
 
-- Redpanda Cloud API token with appropriate permissions
-- Access to target Redpanda Core cluster
-- Network connectivity to both Cloud API and Core cluster
+## Get Started
 
-## Getting a Valid JWT Token
+### Step 1: Get a Valid JWT Token
 
-To use this toolkit, you need a Redpanda Cloud API token. You can obtain one using a service account's client ID and secret.
+To use this toolkit, you need a Redpanda Cloud API token. You can obtain one with a service account's client ID and secret.
 
-### Step 1: Create a Service Account
+#### Create a Service Account
 
-1. Go to the **Service Accounts** tab in the [Redpanda Cloud UI](https://cloud.redpanda.com)
-2. Click **Create service account**
-3. Enter a name and description for your service account
-4. Copy the **client ID** and **client secret** - you'll need these to generate tokens
+1. Go to the **Service Account** tab of the **Organization IAM** page in the [Redpanda Cloud UI](https://cloud.redpanda.com).
+2. Click **Create service account**.
+3. Enter a name and description, then click **Create**.
+4. Copy and save the **Client ID** and **Client Secret**. 
 
-### Step 2: Generate an Access Token
+#### Generate an Access Token
 
-Use the following curl command to obtain a JWT token:
+Run the following curl command, replacing `<your-client-id>` and `<your-client-secret>` with the values from your service account:
 
 ```bash
 export CLOUD_CLIENT_ID=<your-client-id>
@@ -47,17 +47,15 @@ export REDPANDA_CLOUD_API_TOKEN=$(curl -s --request POST \
   --data audience=cloudv2-production.redpanda.cloud | jq -r '.access_token')
 ```
 
-Replace `<your-client-id>` and `<your-client-secret>` with the values from your service account.
+**Important Notes**
 
-### Important Notes
-
-- **Token Lifetime**: Access tokens are valid for 4 hours. You'll need to regenerate them as needed.
-- **Token Scope**: The same token works for both Control Plane API calls and Data Plane operations on your clusters.
+- **Token lifetime**: Access tokens are valid for 4 hours. You must regenerate them as needed.
+- **Token scope**: The same token works for both Control Plane API calls and Data Plane operations.
 - **Security**: Store your client credentials securely and never commit them to version control.
 
-For more details, see the [Redpanda Cloud authentication documentation](https://docs.redpanda.com/redpanda-cloud/security/cloud-authentication/#authenticate-to-the-cloud-api).
+For details, see the [Redpanda Cloud authentication documentation](https://docs.redpanda.com/redpanda-cloud/security/cloud-authentication/#authenticate-to-the-cloud-api).
 
-### Installation
+### Step 2: Install the Toolkit
 
 #### Option 1: Pre-compiled Binaries (Recommended)
 
@@ -72,7 +70,7 @@ Make the binary executable (Linux/macOS):
 chmod +x out/linux/unified-identity-toolkit
 ```
 
-#### Option 2: Node.js (No Build Required)
+#### Option 2: Node.js (no build)
 
 If you have Node.js 18+ installed, you can run the tool directly:
 
@@ -84,7 +82,7 @@ export REDPANDA_CLOUD_API_TOKEN="your-cloud-api-token"
 node dist/cli.js sync
 ```
 
-### Basic Usage
+### Step 3: Run the Sync
 
 #### Interactive Mode (Recommended)
 ```bash
@@ -94,12 +92,12 @@ export REDPANDA_CLOUD_API_TOKEN="your-cloud-api-token"
 # Run the sync command (binary)
 ./out/linux/unified-identity-toolkit sync
 
-# OR using Node.js
+# OR use Node.js
 node dist/cli.js sync
 ```
 
-The tool will guide you through:
-1. Cluster selection (if multiple clusters available)
+The tool guides you through:
+1. Cluster selection (if multiple clusters are available)
 2. Role selection (Admin, Writer, Reader)
 3. ACL permission review and confirmation
 
@@ -114,18 +112,18 @@ export REDPANDA_UPSERT_ACLS="true"
 # Run automated sync (binary)
 ./out/linux/unified-identity-toolkit sync
 
-# OR using Node.js
+# OR use Node.js
 node dist/cli.js sync
 ```
 
-## Configuration
+## Configuration Reference
 
 ### Environment Variables
 
 | Variable | Required | Description |
 |----------|----------|-------------|
 | `REDPANDA_CLOUD_API_TOKEN` | ✅ | Cloud API authentication token |
-| `REDPANDA_DATAPLANE_TOKEN` | ❌ | Dataplane API token (falls back to cloud token) |
+| `REDPANDA_DATAPLANE_TOKEN` | ❌ | Data Plane API token (falls back to cloud token) |
 | `REDPANDA_CLUSTER_ID` | ❌ | Target cluster ID (skips interactive selection) |
 | `REDPANDA_ROLE_NAME` | ❌ | Role to sync: Admin, Writer, or Reader |
 | `REDPANDA_UPSERT_ACLS` | ❌ | Set to `true` to auto-reconcile ACLs without prompts |
@@ -141,7 +139,7 @@ node dist/cli.js sync [options]
 
 Options:
   --cloud-token <token>      Cloud API token
-  --dataplane-token <token>  Dataplane API token (optional)
+  --dataplane-token <token>  Data Plane API token (optional)
   --cloud-url <url>          Cloud API URL (default: https://api.redpanda.com)
   --cluster-id <id>          Target cluster ID
   --role-name <name>         Role name to sync (Admin, Writer, Reader)
@@ -181,20 +179,20 @@ node dist/cli.js sync
 
 ## Role Types and Permissions
 
-### Admin Role
+### Admin role
 - Full cluster administration rights
 - All Kafka operations on all resources
 - Schema Registry management
 - Consumer group management
 - Topic and partition administration
 
-### Writer Role
+### Writer role
 - Produce to topics with `ALLOW` permission
 - Create topics (if auto-creation enabled)
 - Schema Registry write operations
 - Limited consumer group access
 
-### Reader Role
+### Reader role
 - Consume from topics with `ALLOW` permission
 - Read-only Schema Registry access
 - Consumer group membership
@@ -204,63 +202,49 @@ node dist/cli.js sync
 
 ### Common Issues
 
-**Authentication Error**
-```
-❌ Cloud API token is required
-```
-**Solution**: Set `REDPANDA_CLOUD_API_TOKEN` environment variable or use `--cloud-token` flag.
+| Error | Cause | Solution |
+|-------|-------|---------|
+| `❌ Cloud API token is required` | Missing authentication | Set `REDPANDA_CLOUD_API_TOKEN` or use `--cloud-token` |
+| `❌ No ready clusters found` | No accessible clusters | Verify token permissions and cluster status |
+| `❌ Failed to create role: permission denied` | Insufficient permissions | Ensure Data Plane token has admin permissions on the target cluster |
 
-**No Clusters Found**
-```
-❌ No ready clusters found
-```
-**Solution**: Ensure your API token has access to clusters and clusters are in READY state.
 
-**Permission Denied**
-```
-❌ Failed to create role: permission denied
-```
-**Solution**: Verify your dataplane token has admin permissions on the target cluster.
-
-### Getting Help
+### Get Help
 
 ```bash
-# Show all available commands
+# Show all commands
 ./out/linux/unified-identity-toolkit --help
 
-# Show sync command options
+# Show sync options
 ./out/linux/unified-identity-toolkit sync --help
 
 # Show environment variables documentation
 ./out/linux/unified-identity-toolkit env-help
 
-# Show version information
+# Show version
 ./out/linux/unified-identity-toolkit version
 ```
 
-### Debug Mode
+### Debug Information
 
-For troubleshooting, you can run the tool with additional logging by examining the console output. The tool provides detailed information about:
-
-- API requests being made
-- Roles and principals discovered
+The tool provides detailed console output including:
+- API requests and responses
+- Discovered roles and principals
 - ACL permissions being created
-- Synchronization progress and results
+- Synchronization progress
 
-## Security Considerations
+## Security Best Practices
 
-- **Token Storage**: Store API tokens securely and avoid committing them to version control
-- **Network Security**: Ensure secure network connections to both Cloud API and Core clusters
-- **Permission Scope**: Use tokens with minimal required permissions
-- **Audit Trail**: Review sync results and maintain logs of identity changes
+- **Secure token storage**: Use environment variables, not hardcoded values.
+- **Network security**: Ensure encrypted connections to all endpoints.
+- **Minimal permissions**: Use tokens with only required access levels.
+- **Audit trail**: Review sync operations and log changes.
 
-## Support
+## Tips
 
-For issues and questions:
-- Review the troubleshooting section above
-- Check Redpanda documentation for cluster configuration
-- Verify API token permissions and expiration
-- Ensure network connectivity to required endpoints
+- **Documentation**: Check [Redpanda documentation](https://docs.redpanda.com/) for cluster configuration.
+- **Network**: Verify connectivity to required endpoints.
+- **Permissions**: Ensure API tokens have appropriate cluster access.
 
 ## License
 
